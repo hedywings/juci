@@ -1,0 +1,5 @@
+
+config mountd 'mountd'
+	option timeout '60'
+	option path '/Media/'
+

@@ -1,0 +1,13 @@
+
+config samba
+	option workgroup 'WORKGROUP'
+	option homes '1'
+	option name 'LinkIt'
+	option description 'LinkIt'
+
+config sambashare 'media'
+	option name 'Media'
+	option path '/Media'
+	option read_only 'no'
+	option guest_ok 'yes'
+

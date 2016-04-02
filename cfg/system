@@ -1,0 +1,16 @@
+
+config system
+	option timezone 'UTC'
+	option firmware_version 'v0.9.2'
+	option loader_version 'v0.8.2'
+	option linkit_firstboot '1'
+	option hostname 'dragon-7688'
+
+config timeserver 'ntp'
+	list server '0.openwrt.pool.ntp.org'
+	list server '1.openwrt.pool.ntp.org'
+	list server '2.openwrt.pool.ntp.org'
+	list server '3.openwrt.pool.ntp.org'
+	option enabled '1'
+	option enable_server '0'
+

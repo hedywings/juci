@@ -33,18 +33,20 @@ var cfgParser = {
                 break;
             case 'option-value':
                 // save the value
-                this.ptr[this.prevToken] = token;
+                var val = parseInt(token);
+                val = isNaN(val) ? token : val;
+                this.ptr[this.prevToken] = val;
                 break;
             case 'list-key':
                 this.prevToken = token;
                 this.ptr[token] = this.ptr[token] || [];
-                // this.ptr = this.data[token];
                 cfgParser.changeState('list-value');
                 break;
             case 'list-value':
-                // console.log(this.ptr);
-                if (this.ptr[this.prevToken])
-                    this.ptr[this.prevToken].push(token);
+                // save the value
+                var valx = parseInt(token);
+                valx = isNaN(valx) ? token : valx;
+                this.ptr[this.prevToken].push(valx);
                 break;
         }
     },
@@ -52,18 +54,24 @@ var cfgParser = {
     data: {}
 };
 
-fs.readFile(__dirname + '/cfg/firewall', 'utf8', function (err, data) {
+fs.readFile(__dirname + '/cfg/network', 'utf8', function (err, data) {
     if (err) throw err;
 
     // pre-process the read data
     data = data.replace(/\t/g, '');
+    data = data.replace(/\n\n/g, ' ');
     data = data.replace(/\n/g, ' ');
     data = data.replace(/'/g, '');
+    //console.log(data);
     data = data.split(' ');
 
     if (data[0] === '')
         data.shift();
 
+    if (data[data.length - 1] === '')
+        data.pop();
+
+    //console.log(data);
     // state machine
     data.forEach(function (token, i) {
         if (token === 'config')
@@ -76,5 +84,5 @@ fs.readFile(__dirname + '/cfg/firewall', 'utf8', function (err, data) {
             cfgParser.read(token);
     });
 
-    console.log(JSON.stringify(cfgParser.data));
+    console.log(cfgParser.data);
 });
